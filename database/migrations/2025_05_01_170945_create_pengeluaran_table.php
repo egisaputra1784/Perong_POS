@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pengeluaran', function (Blueprint $table) {
             $table->increments('id_pengeluaran');
             $table->text('deskripsi');
-            $table->integer('nominal');
+        $table->integer('nominal');
             $table->timestamps();
         });
     }
