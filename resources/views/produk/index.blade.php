@@ -2,12 +2,12 @@
 
 
 @section('title')
-    Kategori
+    Produk
 @endsection
 
 @section('breadcrumb')
     @parent
-    <li class="active">Kategori</li>
+    <li class="active">Produk</li>
 @endsection
 
 @section('content')
@@ -17,7 +17,7 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <button class="btn btn-success xs btn-flat" onclick="addForm('{{ route('kategori.store') }}')"><i
+                    <button class="btn btn-success xs btn-flat" onclick="addForm('{{ route('produk.store') }}')"><i
                             class="fa fa-plus-circle"></i> Tambah</button>
                 </div>
                 <!-- /.box-header -->
@@ -25,7 +25,14 @@
                     <table class="table table-striped table-bordered">
                         <thead>
                             <th width="5%">No</th>
-                            <th>Kategori</th>
+                            <th>Kode</th>
+                            <th>Nama</th>
+                            <th>kategori</th>
+                            <th>Merek</th>
+                            <th>Harga Beli</th>
+                            <th>Harga Jual</th>
+                            <th>Diskon</th>
+                            <th>Stock</th>
                             <th width="15%"><i class="fa fa-cog"></i></th>
                         </thead>
                         <tbody></tbody>
@@ -38,7 +45,7 @@
     </div>
     <!-- /.row (main row) -->
 
-    @includeIf('kategori.form')
+    @includeIf('produk.form')
 @endsection
 
 @push('scripts')
@@ -49,21 +56,19 @@
                 processing: true,
                 autoWidth: false,
                 ajax: {
-                    url: '{{ route('kategori.data') }}',
+                    url: '{{ route('produk.data') }}',
                 },
-                columns: [{
-                        data: 'DT_RowIndex',
-                        searchable: false,
-                        sortable: false
-                    },
-                    {
-                        data: 'nama_kategori'
-                    },
-                    {
-                        data: 'aksi',
-                        searchable: false,
-                        sortable: false
-                    }
+                columns: [
+                    {data: 'DT_RowIndex', searchable: false,sortable: false},
+                    {data: 'kode_produk'},
+                    {data: 'nama_produk'},
+                    {data: 'kategori'},
+                    {data: 'merek'},
+                    {data: 'harga_beli'},
+                    {data: 'harga_jual'},
+                    {data: 'diskon'},
+                    {data: 'stock'},
+                    {data: 'aksi', searchable: false, sortable: false}
                 ]
             });
 
@@ -84,23 +89,23 @@
 
         function addForm(url) {
             $('#modal-form').modal('show');
-            $('#modal-form .modal-title').text('Tambah Kategori');
+            $('#modal-form .modal-title').text('Tambah Produk');
 
             $('#modal-form form')[0].reset();
             $('#modal-form form').attr('action', url);
             $('#modal-form [name=_method]').val('post');
-            $('#modal-form [name=nama_kategori]').focus();
+            $('#modal-form [name=nama_produk]').focus();
 
         }
 
         function editForm(url) {
             $('#modal-form').modal('show');
-            $('#modal-form .modal-title').text('Edit Kategori');
+            $('#modal-form .modal-title').text('Edit Produk');
 
             $('#modal-form form')[0].reset();
             $('#modal-form form').attr('action', url);
             $('#modal-form [name=_method]').val('put');
-            $('#modal-form [name=nama_kategori]').focus();
+            $('#modal-form [name=nama_produk]').focus();
 
             $.get(url)
                 .done((response) => {
