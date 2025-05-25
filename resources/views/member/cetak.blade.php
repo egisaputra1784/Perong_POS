@@ -99,6 +99,11 @@
                             </div>
                         </div>
                     </td>
+                    @if (count($data) == 1)
+                        <td class="text-center" style="width: 50%;"></td>
+                    @else
+                        <td class="text-center"></td>
+                    @endif
                     @endforeach
                 </tr>
             @endforeach
