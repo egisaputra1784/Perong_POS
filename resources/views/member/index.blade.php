@@ -2,12 +2,12 @@
 
 
 @section('title')
-    Produk
+    Member
 @endsection
 
 @section('breadcrumb')
     @parent
-    <li class="active">Produk</li>
+    <li class="active">Member</li>
 @endsection
 
 @section('content')
@@ -17,20 +17,15 @@
         <div class="col-md-12">
             <div class="box">
                 <div class="box-header with-border">
-                    <div class="btn-group">
-                        <button class="btn btn-success xs btn-flat" onclick="addForm('{{ route('produk.store') }}')"><i
-                                class="fa fa-plus-circle"></i> Tambah</button>
-                        <button class="btn btn-danger xs btn-flat"
-                            onclick="deleteSelected('{{ route('produk.delete_selected') }}')"><i class="fa fa-trash"></i>
-                            Hapus</button>
-                        <button class="btn btn-info xs btn-flat"
-                            onclick="cetakBarcode('{{ route('produk.cetak_barcode') }}')"><i class="fa fa-barcode"></i>
-                            Cetak Barcode</button>
-                    </div>
+                    <button class="btn btn-success xs btn-flat" onclick="addForm('{{ route('member.store') }}')"><i
+                            class="fa fa-plus-circle"></i> Tambah</button>
+                    <button class="btn btn-info xs btn-flat" onclick="cetakMember('{{ route('member.cetak_member') }}')"><i
+                            class="fa fa-id-card"></i>
+                        Cetak Member</button>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body table-responsive">
-                    <form action="" method="post" class="form-produk">
+                    <form action="" method="post" class="form-member">
                         @csrf
                         <table class="table table-striped table-bordered">
                             <thead>
@@ -40,12 +35,8 @@
                                 <th width="5%">No</th>
                                 <th>Kode</th>
                                 <th>Nama</th>
-                                <th>kategori</th>
-                                <th>Merek</th>
-                                <th>Harga Beli</th>
-                                <th>Harga Jual</th>
-                                <th>Diskon</th>
-                                <th>Stock</th>
+                                <th>Alamat</th>
+                                <th>Telepon</th>
                                 <th width="15%"><i class="fa fa-cog"></i></th>
                             </thead>
                             <tbody></tbody>
@@ -59,7 +50,7 @@
     </div>
     <!-- /.row (main row) -->
 
-    @includeIf('produk.form')
+    @includeIf('member.form')
 @endsection
 
 @push('scripts')
@@ -70,7 +61,7 @@
                 processing: true,
                 autoWidth: false,
                 ajax: {
-                    url: '{{ route('produk.data') }}',
+                    url: '{{ route('member.data') }}',
                 },
                 columns: [{
                         data: 'select_all'
@@ -81,28 +72,16 @@
                         sortable: false
                     },
                     {
-                        data: 'kode_produk'
+                        data: 'kode_member'
                     },
                     {
-                        data: 'nama_produk'
+                        data: 'nama'
                     },
                     {
-                        data: 'nama_kategori'
+                        data: 'alamat'
                     },
                     {
-                        data: 'merek'
-                    },
-                    {
-                        data: 'harga_beli'
-                    },
-                    {
-                        data: 'harga_jual'
-                    },
-                    {
-                        data: 'diskon'
-                    },
-                    {
-                        data: 'stock'
+                        data: 'telepon'
                     },
                     {
                         data: 'aksi',
@@ -129,37 +108,34 @@
             $('[name=select_all]').on('click', function() {
                 $(':checkbox').prop('checked', this.checked);
             });
+
         });
 
         function addForm(url) {
             $('#modal-form').modal('show');
-            $('#modal-form .modal-title').text('Tambah Produk');
+            $('#modal-form .modal-title').text('Tambah Member');
 
             $('#modal-form form')[0].reset();
             $('#modal-form form').attr('action', url);
             $('#modal-form [name=_method]').val('post');
-            $('#modal-form [name=nama_produk]').focus();
+            $('#modal-form [name=nama]').focus();
 
         }
 
         function editForm(url) {
             $('#modal-form').modal('show');
-            $('#modal-form .modal-title').text('Edit Produk');
+            $('#modal-form .modal-title').text('Edit Member');
 
             $('#modal-form form')[0].reset();
             $('#modal-form form').attr('action', url);
             $('#modal-form [name=_method]').val('put');
-            $('#modal-form [name=nama_produk]').focus();
+            $('#modal-form [name=nama]').focus();
 
             $.get(url)
                 .done((response) => {
-                    $('#modal-form [name=nama_produk]').val(response.nama_produk);
-                    $('#modal-form [name=id_kategori]').val(response.id_kategori);
-                    $('#modal-form [name=merek]').val(response.merek);
-                    $('#modal-form [name=harga_beli]').val(response.harga_beli);
-                    $('#modal-form [name=harga_jual]').val(response.harga_jual);
-                    $('#modal-form [name=diskon]').val(response.diskon);
-                    $('#modal-form [name=stock]').val(response.stock);
+                    $('#modal-form [name=nama]').val(response.nama);
+                    $('#modal-form [name=alamat]').val(response.alamat);
+                    $('#modal-form [name=telepon]').val(response.telepon);
                 })
                 .fail((errors) => {
                     alert('Tidak Dapat Menampilkan Data');
@@ -184,35 +160,15 @@
             }
         }
 
-        function deleteSelected(url) {
-            if ($('input:checked').length > 1) {
-                if (confirm('Yakin Ingin Menghapus Data Yang Terpilih??')) {
-                    $.post(url, $('.form-produk').serialize())
-                        .done((response) => {
-                            table.ajax.reload();
-                        })
-                        .fail((errors) => {
-                            alert('Tidak Dapat Menghapus Data');
-                            return;
-                        });
-                }
-            } else {
-                alert('Pilih Data Yang Akan Dihapus');
-                return;
-            }
-        }
-        function cetakBarcode(url) {
+        function cetakMember(url) {
             if ($('input:checked').length < 1) {
                 alert('Pilih Data Yang Akan di Pilih');
                 return;
-            } else if ($('input:checked').length < 3) {
-                alert('minimal 3 data yang harus dipilih');
-                return;
             } else {
-                $('.form-produk')
-                .attr('action', url)
-                .attr('target', '_blank')
-                .submit();
+                $('.form-member')
+                    .attr('action', url)
+                    .attr('target', '_blank')
+                    .submit();
             }
         }
     </script>

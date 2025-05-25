@@ -12,7 +12,8 @@
                     <div class="form-group row">
                         <label for="nama_produk" class="col-md-2 col-md-offset-1 control-label">Nama</label>
                         <div class="col-md-9">
-                            <input type="text" name="nama_produk" id="nama_produk" class="form-control" required autofocus>
+                            <input type="text" name="nama_produk" id="nama_produk" class="form-control" required
+                                autofocus>
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
@@ -21,9 +22,11 @@
                         <div class="col-md-9">
                             <select name="id_kategori" id="id_kategori" class="form-control" required>
                                 <option value="">Pilih Kategori</option>
-                                @foreach ($kategori as $key => $item)
-                                    <option value="{{ $key }}">{{ $item }}</option>
-                                @endforeach
+                                @if ($kategori ?? false)
+                                    @foreach ($kategori as $key => $item)
+                                        <option value="{{ $key }}">{{ $item }}</option>
+                                    @endforeach
+                                @endif
                             </select>
                             <span class="help-block with-errors"></span>
                         </div>
@@ -59,7 +62,8 @@
                     <div class="form-group row">
                         <label for="stock" class="col-md-2 col-md-offset-1 control-label">Stock</label>
                         <div class="col-md-9">
-                            <input type="number" name="stock" id="stock" class="form-control" value="0" required>
+                            <input type="number" name="stock" id="stock" class="form-control" value="0"
+                                required>
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
