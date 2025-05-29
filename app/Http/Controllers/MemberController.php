@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Member;
+use App\Models\Setting;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class MemberController extends Controller
@@ -114,15 +115,16 @@ class MemberController extends Controller
     }
     public function cetakMember(Request $request)
     {
-        $no = 1;
         $datamember = collect(array());
         foreach ($request->id_member as $id) {
             $member = Member::find($id);
             $datamember[] = $member;
         }
 
+        $setting = Setting::first();
+        $no = 1;
         $datamember = $datamember->chunk(2);
-        $pdf = Pdf::loadView('member.cetak', compact('datamember', 'no'));
+        $pdf = Pdf::loadView('member.cetak', compact('datamember', 'no', 'setting'));
         $pdf->setPaper(array(0, 0, 566.93, 850.39), 'potrait');
         return $pdf->stream('$member.pdf');
     }
