@@ -69,7 +69,7 @@
             </li>
             <li class="header">Report</li>
             <li>
-                <a href="#">
+                <a href="{{ route('laporan.index') }}">
                     <i class="fa fa-file"></i> <span>Laporan</span>
                 </a>
             </li>
