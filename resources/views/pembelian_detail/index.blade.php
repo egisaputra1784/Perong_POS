@@ -1,4 +1,4 @@
-@extends('layouts.master')Add commentMore actions
+@extends('layouts.master')
 
 @section('title')
     Transaksi Penjualan
